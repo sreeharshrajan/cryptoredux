@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { Row, Col, Avatar, Select, Typography, Card } from "antd";
+import { Select, Typography, Row, Col, Avatar, Card } from "antd";
 import moment from "moment";
-import { useGetCryptoNewsQuery } from "../services/cryptoNewsApi";
-import { useGetCryptosQuery } from "../services/cryptoApi";
 
-const { Text, Title } = Typography;
-const { Option } = Select;
+import { useGetCryptosQuery } from "../services/cryptoApi";
+import { useGetCryptoNewsQuery } from "../services/cryptoNewsApi";
+import Loader from "./Loader";
 
 const demoImage =
   "https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid=News";
+
+const { Text, Title } = Typography;
+const { Option } = Select;
 
 const News = ({ simplified }) => {
   const [newsCategory, setNewsCategory] = useState("Cryptocurrency");
@@ -18,7 +20,7 @@ const News = ({ simplified }) => {
     count: simplified ? 6 : 12,
   });
 
-  console.log(cryptoNews);
+  if (!cryptoNews?.value) return <Loader />;
 
   return (
     <Row gutter={[24, 24]}>
